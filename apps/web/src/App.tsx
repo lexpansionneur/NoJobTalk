@@ -2,15 +2,18 @@ import { type FormEvent, useState } from 'react'
 
 const STEPS = [
   {
-    title: '1. Tu proposes ou tu rejoins',
-    body: "Propose un café à un jour et une heure, ou laisse l'appli te regrouper avec 3-4 personnes dispos près de chez toi — sans avoir besoin d'organiser quoi que ce soit.",
+    icon: '☕',
+    title: 'Tu proposes ou tu rejoins',
+    body: "Propose un café à un jour et une heure, ou laisse-toi regrouper avec 3-4 personnes dispos près de chez toi — sans avoir besoin d'organiser quoi que ce soit.",
   },
   {
-    title: '2. Vous vous voyez, en vrai',
+    icon: '🤝',
+    title: 'Vous vous voyez, en vrai',
     body: 'Un lieu public, un créneau court (45-60 min). Pas de questionnaire de personnalité à rallonge : juste ta zone, tes disponibilités et ce que tu cherches.',
   },
   {
-    title: '3. Vous repartez avec quelque chose',
+    icon: '💡',
+    title: 'Vous repartez avec quelque chose',
     body: "Un tip, un contact, une piste, une candidature partagée. Chaque rencontre a un fil récap où on note ce qu'on a appris, pour que ça profite à d'autres.",
   },
 ]
@@ -44,91 +47,126 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-        <span className="text-lg font-semibold tracking-tight">NoJobTalk</span>
-        <a
-          href="#rejoindre"
-          className="rounded-full border border-slate-300 px-4 py-1.5 text-sm font-medium hover:border-slate-500 dark:border-slate-700 dark:hover:border-slate-500"
-        >
-          Rejoindre la liste d'attente
-        </a>
-      </header>
+    <div className="relative min-h-screen overflow-hidden bg-amber-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100">
+      {/* décor : taches de couleur douces, purement esthétiques */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-orange-200/50 blur-3xl dark:bg-orange-900/20"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-40 -right-24 h-80 w-80 rounded-full bg-rose-200/40 blur-3xl dark:bg-rose-900/20"
+      />
 
-      <main className="mx-auto max-w-3xl px-6 pb-24 pt-12 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Chercher un emploi, c'est plus efficace à plusieurs.
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-slate-600 dark:text-slate-400">
-          NoJobTalk organise des rencontres physiques et informelles entre
-          personnes en recherche d'emploi, autour d'un café, pour se partager
-          tips, contacts et opportunités. Pas besoin d'organisateur, pas de
-          questionnaire interminable — juste un lieu, un créneau, et
-          quelques personnes dans la même situation que toi.
-        </p>
+      <div className="relative">
+        <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
+          <span className="flex items-center gap-2 text-lg font-bold tracking-tight">
+            <span aria-hidden>☕</span> NoJobTalk
+          </span>
+          <a
+            href="#rejoindre"
+            className="rounded-full bg-stone-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-stone-700 dark:bg-amber-400 dark:text-stone-900 dark:hover:bg-amber-300"
+          >
+            Rejoindre la liste d'attente
+          </a>
+        </header>
 
-        <section className="mt-16 grid gap-8 text-left sm:grid-cols-3">
-          {STEPS.map((step) => (
-            <div key={step.title}>
-              <h2 className="text-base font-semibold">{step.title}</h2>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                {step.body}
-              </p>
-            </div>
-          ))}
-        </section>
+        <main className="mx-auto max-w-3xl px-6 pb-24 pt-12 text-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-sm font-medium text-orange-700 shadow-sm ring-1 ring-orange-200 dark:bg-stone-900/80 dark:text-orange-300 dark:ring-orange-900">
+            Entre chercheurs d'emploi, sans recruteur — jamais
+          </span>
 
-        <section id="rejoindre" className="mt-20 rounded-2xl border border-slate-200 p-8 dark:border-slate-800">
-          <h2 className="text-xl font-semibold">On lance le pilote bientôt</h2>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-            Laisse ton email et ta ville pour être prévenu·e dès que
-            NoJobTalk ouvre près de chez toi.
+          <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl dark:text-white">
+            Chercher un emploi, c'est plus{' '}
+            <span className="text-orange-600 dark:text-orange-400">
+              chouette à plusieurs
+            </span>
+            .
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-stone-600 dark:text-stone-400">
+            NoJobTalk organise des rencontres physiques et informelles entre
+            personnes en recherche d'emploi, autour d'un café, pour se
+            partager tips, contacts et opportunités. Pas besoin
+            d'organisateur, pas de questionnaire interminable — juste un
+            lieu, un créneau, et quelques personnes dans la même situation
+            que toi.
           </p>
 
-          {status === 'done' ? (
-            <p className="mt-6 text-sm font-medium text-emerald-600 dark:text-emerald-400">
-              Merci, tu es sur la liste ! On te tient au courant.
-            </p>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center"
-            >
-              <input
-                type="email"
-                required
-                placeholder="ton@email.fr"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm outline-none focus:border-slate-500 sm:w-64 dark:border-slate-700 dark:bg-slate-900"
-              />
-              <input
-                type="text"
-                placeholder="Ta ville"
-                value={ville}
-                onChange={(event) => setVille(event.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm outline-none focus:border-slate-500 sm:w-40 dark:border-slate-700 dark:bg-slate-900"
-              />
-              <button
-                type="submit"
-                disabled={status === 'submitting'}
-                className="rounded-lg bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+          <section className="mt-16 grid gap-6 text-left sm:grid-cols-3">
+            {STEPS.map((step, index) => (
+              <div
+                key={step.title}
+                className="rounded-3xl bg-white/70 p-6 shadow-sm ring-1 ring-stone-900/5 backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-stone-900/60 dark:ring-white/10"
               >
-                Je m'inscris
-              </button>
-            </form>
-          )}
-          {status === 'error' && (
-            <p className="mt-3 text-sm text-red-500">
-              Vérifie ton email et réessaie.
-            </p>
-          )}
-        </section>
-      </main>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-lg dark:bg-orange-900/40">
+                  <span aria-hidden>{step.icon}</span>
+                </div>
+                <h2 className="mt-4 text-base font-semibold text-stone-900 dark:text-white">
+                  {index + 1}. {step.title}
+                </h2>
+                <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+                  {step.body}
+                </p>
+              </div>
+            ))}
+          </section>
 
-      <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-500 dark:border-slate-800">
-        NoJobTalk — projet en cours de construction.
-      </footer>
+          <section
+            id="rejoindre"
+            className="mt-20 rounded-3xl bg-gradient-to-br from-orange-500 to-rose-500 p-8 text-white shadow-lg shadow-orange-500/20 sm:p-10"
+          >
+            <h2 className="text-2xl font-bold">On lance le pilote bientôt ✨</h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-orange-50">
+              Laisse ton email et ta ville pour être prévenu·e dès que
+              NoJobTalk ouvre près de chez toi — et faire partie des
+              premières tables.
+            </p>
+
+            {status === 'done' ? (
+              <p className="mt-6 text-sm font-semibold">
+                Merci, tu es sur la liste ! On te tient au courant. 🎉
+              </p>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center"
+              >
+                <input
+                  type="email"
+                  required
+                  placeholder="ton@email.fr"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="w-full rounded-full border-0 bg-white/95 px-4 py-2.5 text-sm text-stone-900 outline-none ring-2 ring-transparent placeholder:text-stone-400 focus:ring-white sm:w-64"
+                />
+                <input
+                  type="text"
+                  placeholder="Ta ville"
+                  value={ville}
+                  onChange={(event) => setVille(event.target.value)}
+                  className="w-full rounded-full border-0 bg-white/95 px-4 py-2.5 text-sm text-stone-900 outline-none ring-2 ring-transparent placeholder:text-stone-400 focus:ring-white sm:w-40"
+                />
+                <button
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="rounded-full bg-stone-900 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 disabled:opacity-50"
+                >
+                  Je m'inscris
+                </button>
+              </form>
+            )}
+            {status === 'error' && (
+              <p className="mt-3 text-sm font-medium text-rose-50">
+                Vérifie ton email et réessaie.
+              </p>
+            )}
+          </section>
+        </main>
+
+        <footer className="border-t border-stone-900/10 py-6 text-center text-xs text-stone-500 dark:border-white/10 dark:text-stone-500">
+          NoJobTalk — projet en cours de construction.
+        </footer>
+      </div>
     </div>
   )
 }
