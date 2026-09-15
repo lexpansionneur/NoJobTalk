@@ -73,23 +73,22 @@ function App() {
 
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-12 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-sm font-medium text-orange-700 shadow-sm ring-1 ring-orange-200 dark:bg-stone-900/80 dark:text-orange-300 dark:ring-orange-900">
-            Entre chercheurs d'emploi, sans recruteur — jamais
+            Que des pairs. Zéro recruteur.
           </span>
 
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl dark:text-white">
-            Chercher un emploi, c'est plus{' '}
+            Ton prochain{' '}
             <span className="text-orange-600 dark:text-orange-400">
-              chouette à plusieurs
-            </span>
-            .
+              coup de pouce
+            </span>{' '}
+            n'est pas sur LinkedIn.
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-stone-600 dark:text-stone-400">
-            NoJobTalk organise des rencontres physiques et informelles entre
-            personnes en recherche d'emploi, autour d'un café, pour se
-            partager tips, contacts et opportunités. Pas besoin
-            d'organisateur, pas de questionnaire interminable — juste un
-            lieu, un créneau, et quelques personnes dans la même situation
-            que toi.
+            Il est autour d'un café, avec quelqu'un dans la même situation
+            que toi. NoJobTalk organise des rencontres physiques entre
+            chercheurs d'emploi pour se partager tips, contacts et
+            opportunités — sans organisateur, sans questionnaire à
+            rallonge. Juste un lieu, un créneau, et les bonnes personnes.
           </p>
 
           <section className="mt-16 grid gap-6 text-left sm:grid-cols-3">
