@@ -72,8 +72,8 @@ function App() {
         </header>
 
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-12 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-orange-600 px-4 py-1.5 text-sm font-bold uppercase tracking-wide text-white shadow-sm shadow-orange-600/20 dark:bg-orange-500">
-            Que des pairs. Zéro recruteur.
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-sm font-medium text-orange-700 shadow-sm ring-1 ring-orange-200 dark:bg-stone-900/80 dark:text-orange-300 dark:ring-orange-900">
+            Pas de CV. Pas de recruteur. Juste un café.
           </span>
 
           <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-stone-900 sm:text-5xl sm:leading-tight dark:text-white">
