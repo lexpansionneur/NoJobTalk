@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react'
+import { supabase } from './lib/supabase'
 
 const STEPS = [
   {
@@ -25,7 +26,7 @@ function App() {
   const [ville, setVille] = useState('')
   const [status, setStatus] = useState<Status>('idle')
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!email.includes('@')) {
       setStatus('error')
@@ -33,17 +34,11 @@ function App() {
     }
 
     setStatus('submitting')
-    // TODO(phase 1): remplacer par un insert Supabase (table `waitlist`)
-    // une fois le backend branché. Pour l'instant on capture localement
-    // afin de pouvoir valider l'intérêt dès le pilote.
-    try {
-      const entries = JSON.parse(localStorage.getItem('nojobtalk_waitlist') ?? '[]')
-      entries.push({ email, ville, date: new Date().toISOString() })
-      localStorage.setItem('nojobtalk_waitlist', JSON.stringify(entries))
-      setStatus('done')
-    } catch {
-      setStatus('error')
-    }
+    const { error } = await supabase
+      .from('waitlist')
+      .insert({ email, ville: ville || null })
+
+    setStatus(error ? 'error' : 'done')
   }
 
   return (
