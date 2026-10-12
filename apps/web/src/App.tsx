@@ -1,5 +1,4 @@
 import { type FormEvent, useState } from 'react'
-import { supabase } from './lib/supabase'
 
 const STEPS = [
   {
@@ -34,11 +33,16 @@ function App() {
     }
 
     setStatus('submitting')
-    const { error } = await supabase
-      .from('waitlist')
-      .insert({ email, ville: ville || null })
-
-    setStatus(error ? 'error' : 'done')
+    try {
+      const response = await fetch('/subscribe.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, ville: ville || null }),
+      })
+      setStatus(response.ok ? 'done' : 'error')
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
