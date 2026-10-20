@@ -1,0 +1,237 @@
+import type { LienUtile, Message, Profile, TableMeetup } from '../types'
+
+function dansNJours(n: number): string {
+  const date = new Date()
+  date.setDate(date.getDate() + n)
+  return date.toISOString().slice(0, 10)
+}
+
+export const MOI: Profile = {
+  id: 'moi',
+  prenom: 'Toi',
+  ville: 'Paris',
+  secteur: '',
+  tip: '',
+}
+
+export const PROFILS_SEED: Profile[] = [
+  {
+    id: 'p1',
+    prenom: 'Camille',
+    ville: 'Paris',
+    secteur: 'Marketing digital',
+    tip: "Les offres les plus intéressantes sortent souvent sur LinkedIn un lundi matin, avant d'être relayées ailleurs.",
+  },
+  {
+    id: 'p2',
+    prenom: 'Yanis',
+    ville: 'Paris',
+    secteur: 'Développement web',
+    tip: 'Les meetups tech locaux recrutent autant que les offres en ligne — on y va en curieux, on repart avec des contacts.',
+  },
+  {
+    id: 'p3',
+    prenom: 'Léa',
+    ville: 'Lyon',
+    secteur: 'Ressources humaines',
+    tip: "France Travail propose des ateliers CV gratuits peu connus, souvent avec des places libres la semaine même.",
+  },
+  {
+    id: 'p4',
+    prenom: 'Mehdi',
+    ville: 'Lyon',
+    secteur: 'Comptabilité',
+    tip: "Les cabinets d'expertise comptable recrutent beaucoup par cooptation : ça vaut le coup de demander autour de soi.",
+  },
+  {
+    id: 'p5',
+    prenom: 'Inès',
+    ville: 'Clermont-Ferrand',
+    secteur: 'Design graphique',
+    tip: 'Un portfolio court et ciblé marche mieux qu\'un CV classique pour les postes créa.',
+  },
+  {
+    id: 'p6',
+    prenom: 'Thomas',
+    ville: 'Marseille',
+    secteur: 'Logistique',
+    tip: 'Les entrepôts du secteur embauchent souvent en direct sur site, sans passer par une offre publiée.',
+  },
+]
+
+export const TABLES_SEED: TableMeetup[] = [
+  {
+    id: 't1',
+    titre: 'Café matinal République',
+    lieu: 'Café Le Bonaparte',
+    ville: 'Paris',
+    adresse: '42 rue du Faubourg du Temple, 75011 Paris',
+    lat: 48.8679,
+    lng: 2.3708,
+    date: dansNJours(2),
+    heure: '10:00',
+    placesMax: 5,
+    participantIds: ['p1', 'p2'],
+    hoteId: 'p1',
+    description:
+      "On se retrouve autour d'un café pour échanger sur nos recherches en cours, secteur ouvert à tous.",
+  },
+  {
+    id: 't2',
+    titre: 'Tips & opportunités tech',
+    lieu: 'Café des Arts',
+    ville: 'Paris',
+    adresse: '12 rue de Charonne, 75011 Paris',
+    lat: 48.8542,
+    lng: 2.3785,
+    date: dansNJours(5),
+    heure: '18:30',
+    placesMax: 4,
+    participantIds: ['p2'],
+    hoteId: 'p2',
+    description: 'Plutôt orienté dev/tech mais ouvert à tout le monde, on partage ce qu\'on a trouvé cette semaine.',
+  },
+  {
+    id: 't3',
+    titre: 'Table Part-Dieu',
+    lieu: 'Brasserie Georges',
+    ville: 'Lyon',
+    adresse: '30 cours de Verdun Perrache, 69002 Lyon',
+    lat: 45.7489,
+    lng: 4.8259,
+    date: dansNJours(3),
+    heure: '09:30',
+    placesMax: 6,
+    participantIds: ['p3', 'p4'],
+    hoteId: 'p3',
+    description: "Petit-déjeuner recherche d'emploi, tous secteurs.",
+  },
+  {
+    id: 't4',
+    titre: "Café d'entraide Croix-Rousse",
+    lieu: 'Le Café du Soir',
+    ville: 'Lyon',
+    adresse: '8 place Tabareau, 69004 Lyon',
+    lat: 45.7749,
+    lng: 4.8295,
+    date: dansNJours(8),
+    heure: '17:00',
+    placesMax: 5,
+    participantIds: ['p4'],
+    hoteId: 'p4',
+    description: 'Ambiance décontractée, on vient avec ou sans piste à partager.',
+  },
+  {
+    id: 't5',
+    titre: 'Rencontre Jaude',
+    lieu: 'Café de la Place',
+    ville: 'Clermont-Ferrand',
+    adresse: '3 place de Jaude, 63000 Clermont-Ferrand',
+    lat: 45.7762,
+    lng: 3.0823,
+    date: dansNJours(4),
+    heure: '11:00',
+    placesMax: 4,
+    participantIds: ['p5'],
+    hoteId: 'p5',
+    description: 'Première table clermontoise, tous profils bienvenus.',
+  },
+  {
+    id: 't6',
+    titre: 'Vieux-Port Networking',
+    lieu: 'Café La Caravelle',
+    ville: 'Marseille',
+    adresse: '34 Quai du Port, 13002 Marseille',
+    lat: 43.2969,
+    lng: 5.3689,
+    date: dansNJours(6),
+    heure: '10:30',
+    placesMax: 5,
+    participantIds: ['p6'],
+    hoteId: 'p6',
+    description: 'Vue sur le port, ambiance détendue, on parle recherche d\'emploi sans pression.',
+  },
+]
+
+export const MESSAGES_SEED: Message[] = [
+  {
+    id: 'm1',
+    tableId: 't1',
+    auteurId: 'p1',
+    contenu: "Hâte d'y être ! Je viendrai avec une liste d'entreprises qui recrutent en ce moment dans le marketing.",
+    horodatage: new Date(Date.now() - 1000 * 60 * 60 * 20).toISOString(),
+  },
+  {
+    id: 'm2',
+    tableId: 't1',
+    auteurId: 'p2',
+    contenu: "Top, moi je peux parler des meetups tech du mois si ça intéresse du monde.",
+    horodatage: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+  },
+  {
+    id: 'm3',
+    tableId: 't3',
+    auteurId: 'p3',
+    contenu: "Je ramène les infos sur l'atelier CV gratuit de France Travail, certains ne connaissent pas.",
+    horodatage: new Date(Date.now() - 1000 * 60 * 60 * 30).toISOString(),
+  },
+]
+
+export const LIENS_SEED: LienUtile[] = [
+  {
+    id: 'l1',
+    titre: 'France Travail',
+    url: 'https://www.francetravail.fr',
+    description: "Offres d'emploi, accompagnement et ateliers gratuits (CV, entretien...).",
+    categorie: 'Aides publiques',
+  },
+  {
+    id: 'l2',
+    titre: 'Mon Compte Formation',
+    url: 'https://www.moncompteformation.gouv.fr',
+    description: 'Utiliser ses droits à la formation (CPF) pour financer une reconversion.',
+    categorie: 'Formation',
+  },
+  {
+    id: 'l3',
+    titre: 'APEC',
+    url: 'https://www.apec.fr',
+    description: "Offres et accompagnement dédiés aux cadres.",
+    categorie: 'Offres & candidature',
+  },
+  {
+    id: 'l4',
+    titre: 'Solidarités Nouvelles face au Chômage (SNC)',
+    url: 'https://www.snc.asso.fr',
+    description: "Accompagnement individuel par un bénévole, en binôme avec un chercheur d'emploi.",
+    categorie: 'Communautés & réseautage',
+  },
+  {
+    id: 'l5',
+    titre: 'Welcome to the Jungle',
+    url: 'https://www.welcometothejungle.com',
+    description: "Offres d'emploi avec un vrai aperçu de la culture d'entreprise avant de postuler.",
+    categorie: 'Offres & candidature',
+  },
+  {
+    id: 'l6',
+    titre: 'Missions locales',
+    url: 'https://www.mission-locale.fr',
+    description: "Accompagnement gratuit pour les 16-25 ans (emploi, formation, logement...).",
+    categorie: 'Aides publiques',
+  },
+  {
+    id: 'l7',
+    titre: 'OpenClassrooms',
+    url: 'https://openclassrooms.com',
+    description: 'Formations en ligne, certaines finançables via le CPF.',
+    categorie: 'Formation',
+  },
+  {
+    id: 'l8',
+    titre: 'LinkedIn — groupes recherche d\'emploi',
+    url: 'https://www.linkedin.com',
+    description: "Rejoindre des groupes locaux de chercheurs d'emploi pour élargir son réseau.",
+    categorie: 'Communautés & réseautage',
+  },
+]

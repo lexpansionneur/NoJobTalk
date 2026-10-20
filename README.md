@@ -80,27 +80,38 @@ Monorepo `pnpm` pour partager types et logique métier entre le web et
 ```
 NoJobTalk/
 ├─ apps/
-│  ├─ web/       # React + Vite + TypeScript + Tailwind (ce dépôt, phase 1)
+│  ├─ web/       # Landing page de validation (React + Vite + Tailwind)
+│  ├─ app/       # L'application elle-même (React + Vite + Tailwind)
 │  └─ mobile/    # Expo (React Native) — phase 2
 └─ packages/
    └─ shared/    # types (zod), client API, logique de matching — phase 2
 ```
+
+`apps/web` est la landing page de validation (liste d'attente), déjà en
+ligne. `apps/app` est le produit (carte, tables, discussion, liens
+utiles) — voir son [README](./apps/app/README.md) pour son état actuel
+(données factices en attendant le vrai backend).
 
 - **Frontend web** : React + Vite + TypeScript + Tailwind CSS,
   [`TanStack Query`](https://tanstack.com/query) pour l'état serveur.
   Déploiement Vercel/Netlify.
 - **Frontend mobile (phase 2)** : Expo (React Native) + TypeScript +
   Expo Router + Expo Notifications, même client API que le web.
-- **Backend** : [Supabase](https://supabase.com) (Postgres, région UE) —
-  choisi plutôt que Firebase pour trois raisons : extension **PostGIS**
-  pour les requêtes géographiques ("qui est dispo à moins de 2 km"),
-  modèle relationnel qui colle naturellement aux données du produit
-  (utilisateurs, rencontres, inscriptions, avis), et **Row Level
-  Security** pour cloisonner des données sensibles (statut de
-  recherche d'emploi) sans réinventer une couche d'autorisation.
-  Auth par lien magique / OTP (pas de mot de passe à gérer par
-  l'utilisateur), Realtime pour la présence ("qui est dispo
-  maintenant"), Storage pour les avatars.
+- **Backend** : décision initiale Supabase (Postgres + PostGIS + Row
+  Level Security, détaillée plus bas) — **révisée en cours de route** :
+  l'hébergement mutualisé o2switch déjà payé par le porteur du projet
+  couvre les besoins du MVP (PHP + MySQL via cPanel), donc pas de
+  service externe supplémentaire à gérer pour l'instant. `apps/web`
+  l'utilise déjà pour la liste d'attente (`apps/web/server/`),
+  `apps/app` suit le même principe (schéma cible dans
+  `apps/app/server/schema.sql`). Supabase reste une option pertinente
+  si le produit a besoin de fonctionnalités que MySQL+PHP rend plus
+  coûteuses à maintenir soi-même (Realtime, Row Level Security fine,
+  geoqueries PostGIS) — raisons conservées ci-dessous pour mémoire :
+  extension **PostGIS** pour les requêtes géographiques ("qui est
+  dispo à moins de 2 km"), modèle relationnel qui colle naturellement
+  aux données du produit, et **Row Level Security** pour cloisonner des
+  données sensibles sans réinventer une couche d'autorisation.
 - **Analytics** : outil respectueux de la vie privée (Plausible ou
   PostHog auto-hébergé) plutôt qu'un tracker publicitaire classique —
   le sujet (chômage) est sensible, voir [Enjeux](#4-enjeux).
@@ -186,7 +197,11 @@ Autour de ça :
 ## Démarrer en local
 
 ```bash
-cd apps/web
+cd apps/web   # landing page
+pnpm install
+pnpm dev
+
+cd apps/app   # application
 pnpm install
 pnpm dev
 ```
