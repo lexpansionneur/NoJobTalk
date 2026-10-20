@@ -1,5 +1,5 @@
 import { type FormEvent, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { formaterHoraireRelatif } from '../lib/format'
 import { useAppStore } from '../store/AppStore'
 
@@ -8,10 +8,17 @@ export function Discussion() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [brouillon, setBrouillon] = useState('')
 
+  const mesGroupes = useMemo(
+    () => tables.filter((t) => t.participantIds.includes(moi.id)),
+    [tables, moi.id],
+  )
+
   const tableIdParam = searchParams.get('table')
-  const tableSelectionneeId = tables.some((t) => t.id === tableIdParam)
+  const tableSelectionneeId = mesGroupes.some((t) => t.id === tableIdParam)
     ? tableIdParam!
-    : (tables[0]?.id ?? '')
+    : (mesGroupes[0]?.id ?? '')
+
+  const tableSelectionnee = mesGroupes.find((t) => t.id === tableSelectionneeId)
 
   const messagesTable = useMemo(
     () =>
@@ -29,15 +36,29 @@ export function Discussion() {
     setBrouillon('')
   }
 
-  if (tables.length === 0) {
-    return <p className="text-sm text-stone-500">Aucune table pour le moment.</p>
+  if (mesGroupes.length === 0) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Discussion</h1>
+        <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+          Chaque table a son groupe de discussion privé, réservé à celles et ceux qui l'ont
+          rejointe. Rejoins une table pour accéder à son groupe.
+        </p>
+        <Link
+          to="/tables"
+          className="mt-4 inline-block rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+        >
+          Voir les tables
+        </Link>
+      </div>
+    )
   }
 
   return (
     <div>
       <h1 className="text-2xl font-bold tracking-tight">Discussion</h1>
       <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
-        Un fil de discussion par table, pour préparer ou prolonger la rencontre.
+        Un groupe privé par table, visible seulement par les personnes qui l'ont rejointe.
       </p>
 
       <select
@@ -45,12 +66,21 @@ export function Discussion() {
         onChange={(e) => setSearchParams({ table: e.target.value })}
         className="mt-4 w-full rounded-lg border border-stone-300 bg-white/80 px-3 py-2 text-sm dark:border-stone-700 dark:bg-stone-900 sm:w-auto"
       >
-        {tables.map((table) => (
+        {mesGroupes.map((table) => (
           <option key={table.id} value={table.id}>
             {table.titre} — {table.ville}
           </option>
         ))}
       </select>
+
+      {tableSelectionnee && (
+        <p className="mt-2 text-xs text-stone-500">
+          Groupe privé ·{' '}
+          {tableSelectionnee.participantIds
+            .map((id) => (id === moi.id ? 'Toi' : (profils[id]?.prenom ?? 'Quelqu\'un')))
+            .join(', ')}
+        </p>
+      )}
 
       <div className="mt-4 flex max-h-[55vh] flex-col gap-3 overflow-y-auto rounded-2xl bg-white/70 p-4 ring-1 ring-stone-900/10 dark:bg-stone-900/60 dark:ring-white/10">
         {messagesTable.length === 0 && (

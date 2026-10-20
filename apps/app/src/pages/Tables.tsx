@@ -224,12 +224,14 @@ function CarteTable({
             {complet ? 'Complet' : 'Rejoindre'}
           </button>
         )}
-        <Link
-          to={`/discussion?table=${table.id}`}
-          className="text-sm font-medium text-orange-700 underline dark:text-orange-400"
-        >
-          Voir la discussion
-        </Link>
+        {inscrit && (
+          <Link
+            to={`/discussion?table=${table.id}`}
+            className="text-sm font-medium text-orange-700 underline dark:text-orange-400"
+          >
+            Voir le groupe privé
+          </Link>
+        )}
       </div>
     </div>
   )

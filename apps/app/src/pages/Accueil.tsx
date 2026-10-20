@@ -34,7 +34,7 @@ export function Accueil() {
                 to={`/discussion?table=${prochaineTable.id}`}
                 className="mt-3 inline-block text-sm font-medium text-orange-700 underline dark:text-orange-400"
               >
-                Voir la discussion
+                Voir le groupe privé
               </Link>
             </>
           ) : (
